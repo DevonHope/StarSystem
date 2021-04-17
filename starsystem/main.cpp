@@ -33,7 +33,7 @@
 #include <unistd.h>
 #endif
 
-//Change this file path to point to the resource/ directory containing the shaders. 
+//Change this file path to point to the resource/ directory containing the shaders.
 #define DIRECTORY "C:/Users/devon/Documents/UNI/year 5/W20/3009/project/star_test(active)/"
 
 // Macro for printing exceptions
@@ -51,11 +51,6 @@ glm::vec3 background(0.0, 0.0, 0.0);
 //---------------------------------------------------------------------------------------------
 
 // Globals that define the OpenGL camera view and projection
-//useless
-//glm::vec3 camera_position_g(0, 0, 3.0); // Position of camera
-//glm::vec3 camera_look_at_g(0.0, 0.0, 0.0); // Point looking at
-//glm::vec3 camera_up_g(0.0, 1.0, 0.0); // Up vector
-// 
 //set camera
 glm::vec3 cam_pos = glm::vec3(40.0, 0.0, 60.0);
 //glm::vec3 cam_pos = glm::vec3(-52.2668, 39.2079, 38.3623);
@@ -95,7 +90,7 @@ glm::vec3 light_pos;
 typedef struct Geometry {
 	GLuint vbo; // OpenGL vertex buffer object
 	GLuint ibo; // OpenGL index buffer object
-	GLuint vao; //OpenGL vertex array object. Ignore this as its meant for Mac compatability and isn't important for the course. 
+	GLuint vao; //OpenGL vertex array object. Ignore this as its meant for Mac compatability and isn't important for the course.
 	GLuint size; // Size of data to be drawn
 } Geometry;
 
@@ -202,7 +197,7 @@ private:
 };
 
 //This function is used to read the shader programs. OpenGL does not read them as a
-//specific file type, but instead as simply a text file containing c code. 
+//specific file type, but instead as simply a text file containing c code.
 std::string LoadTextFile(std::string filename) {
 
 	const char* char_file = filename.c_str();
@@ -223,12 +218,12 @@ std::string LoadTextFile(std::string filename) {
 	return content;
 }
 
-//This function loads the fragment and vertex shader. 
+//This function loads the fragment and vertex shader.
 GLuint LoadShaders(std::string shaderName) {
 
 	// Create a shader from vertex program source code
 	GLuint vs = glCreateShader(GL_VERTEX_SHADER);
-	
+
 	//Read in the shaders into strings
 	std::string fragment_shader = LoadTextFile(std::string(DIRECTORY) + "resource/"+shaderName +".frag");
 	std::string vertex_shader = LoadTextFile(std::string(DIRECTORY) +"resource/" +shaderName +".vert");
@@ -386,7 +381,7 @@ void keep_cam() {
 
 //mouse call back for input
 void MouseCallback(GLFWwindow* window, int button, int action, int mods) {
-	
+
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
 	{
 		double xpos, ypos;
@@ -420,10 +415,10 @@ Geometry* CreateCube(float width=0.5, float height=0.5, float depth=0.5) {
 
 	// Number of vertices and faces to be created
 	const GLuint vertex_num = 24;
-	const GLuint face_num = 6*2; 
+	const GLuint face_num = 6*2;
 
 	// Number of attributes for faces
-	const int face_att = 3; 
+	const int face_att = 3;
 
 	// Allocate memory for buffers
 	vertices.resize(vertex_num);
@@ -640,7 +635,7 @@ Geometry* CreateCylinder(float height=3, float circle_radius=0.5, int num_height
 	vertices.resize(vertex_num);
 	indices.resize(face_num*face_att);
 
-	// Create vertices 
+	// Create vertices
 	float theta; // Angle for circle
 	float h; // height
 	float s, t; // parameters zero to one
@@ -664,7 +659,7 @@ Geometry* CreateCylinder(float height=3, float circle_radius=0.5, int num_height
 			// Add vectors to the data buffer
 			vertices[(i*num_circle_samples + j)].pos = vertex_position;
 			vertices[(i*num_circle_samples + j)].normal = vertex_normal;
-			vertices[(i*num_circle_samples + j)].color = glm::vec3(1.0 - s, t, s); 
+			vertices[(i*num_circle_samples + j)].color = glm::vec3(1.0 - s, t, s);
 			vertices[(i*num_circle_samples + j)].uv = glm::vec2(s, t);
 
 			//add the bottom vertices
@@ -683,7 +678,7 @@ Geometry* CreateCylinder(float height=3, float circle_radius=0.5, int num_height
 			}
 		}
 	}
-	
+
 	int topvertex = num_circle_samples * (num_height_samples+2);
 	int bottomvertex = num_circle_samples * (num_height_samples+2) + 1; // indices for top and bottom vertex
 	//top
@@ -718,7 +713,7 @@ Geometry* CreateCylinder(float height=3, float circle_radius=0.5, int num_height
 	}
 
 	// amount of array filled so far, start adding from here
-	int cylbodysize = num_circle_samples * (num_height_samples - 1) * 2; 
+	int cylbodysize = num_circle_samples * (num_height_samples - 1) * 2;
 	// triangles for top disc (fan shape)
 
 	int i = num_height_samples;
@@ -782,7 +777,7 @@ Geometry* CreateSphere(float radius=0.5, int num_samples_theta= 100, int num_sam
 	vertices.resize(vertex_num);
 	indices.resize(face_num*face_att);
 
-	// Create vertices 
+	// Create vertices
 	float theta, phi; // Angles for parametric equation
 
 	for (int i = 0; i < num_samples_theta; i++) {
@@ -853,7 +848,7 @@ GLuint LoadTexture(std::string filename) {
 
 	//Load the texture using the SOIL library, and create a new ID for it
 	GLuint texture = SOIL_load_OGL_texture(texture_name.c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, 0);
-	
+
 	//error handling in case the texture wasn't loaded
 	if (!texture) {
 		throw(std::ios_base::failure(std::string("Error loading texture ") + std::string(texture_name) + std::string(": ") + std::string(SOIL_last_result())));
@@ -863,15 +858,15 @@ GLuint LoadTexture(std::string filename) {
 	return texture;
 }
 
-//This function sends the matrix into the uniform in the shader 
+//This function sends the matrix into the uniform in the shader
 //uniforms are attributes that are defined in the shader but can be
-//accessed outside it. 
+//accessed outside it.
 void LoadShaderMatrix(GLuint shader, glm::mat4 matrix, std::string name) {
 
 	//First get the uniform from the shader by specifying its name
 	GLint shader_mat = glGetUniformLocation(shader, name.c_str());
 
-	//Now load the matrix using the proper uniform (matrix4fv) function. 
+	//Now load the matrix using the proper uniform (matrix4fv) function.
 	glUniformMatrix4fv(shader_mat, 1, GL_FALSE, glm::value_ptr(matrix));
 }
 
@@ -902,10 +897,10 @@ void Render(Geometry* geom, GLuint shader,glm::vec3 translation, glm::vec3 scale
 	//First access the "vertex" from the shader
 	GLint vertex_att = glGetAttribLocation(shader, "vertex");
 
-	//This function works simiarly to the uniform and doesn't need to be used for verticies. 
+	//This function works simiarly to the uniform and doesn't need to be used for verticies.
 	//The 2nd parameter is the number of values being selected, the 2nd last parameter
 	//is the size of each attribute, and the last is the memory offset location (In case
-	//you don't want to read from the begining). 
+	//you don't want to read from the begining).
 	glVertexAttribPointer(vertex_att, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
 
 	glEnableVertexAttribArray(vertex_att);
@@ -953,11 +948,11 @@ void Render(Geometry* geom, GLuint shader,glm::vec3 translation, glm::vec3 scale
 		GLint tex = glGetUniformLocation(shader, "texture_map");
 
 		// Assign the first texture to the map
-		glUniform1i(tex, 0); 
+		glUniform1i(tex, 0);
 		glActiveTexture(GL_TEXTURE0);
 
 		// First texture we bind
-		glBindTexture(GL_TEXTURE_2D, texture); 
+		glBindTexture(GL_TEXTURE_2D, texture);
 
 		// Define texture interpolation
 		glGenerateMipmap(GL_TEXTURE_2D);
@@ -967,13 +962,13 @@ void Render(Geometry* geom, GLuint shader,glm::vec3 translation, glm::vec3 scale
 		//define how the texture will be wrapped on the edges
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		
+
 	}
 	else {
 		glBindTexture(shader, 0);
 	}
 
-	//Finally, draw using GL_TRIANGLES, which reads 3 at a time until it reaches the total size 
+	//Finally, draw using GL_TRIANGLES, which reads 3 at a time until it reaches the total size
 	glDrawElements(GL_TRIANGLES, geom->size, GL_UNSIGNED_INT, 0);
 
 }
@@ -982,8 +977,8 @@ void Render(Geometry* geom, GLuint shader,glm::vec3 translation, glm::vec3 scale
 glm::vec3 translate_planet(glm::vec3 tr, float speed, glm::vec3 base, glm::quat rot_pl, float delta) {
 	//tolerance
 	float tol = 0.5;
-	
-	//circle equation x^2 + y^2 = 200 for x and y = 10  
+
+	//circle equation x^2 + y^2 = 200 for x and y = 10
 	float xy = pow(base[0], 2) + pow(base[2], 2);
 
 	//adjust coord for rounding
@@ -997,12 +992,12 @@ glm::vec3 translate_planet(glm::vec3 tr, float speed, glm::vec3 base, glm::quat 
 		tr[2] = -base[2];
 	}
 
-	if (tr[0] >= base[0] && 
+	if (tr[0] >= base[0] &&
 		! (tr[0] < base[0]) &&
-		tr[2] >= -base[2] && 
+		tr[2] >= -base[2] &&
 		tr[2] <= base[2]) {
 
-		rot_pl = glm::angleAxis(delta * 30 * glm::pi<float>() / 180.0f, 
+		rot_pl = glm::angleAxis(delta * 30 * glm::pi<float>() / 180.0f,
 			glm::normalize(glm::vec3(0.0, 0.0, 0.5)));
 
 		float x = sqrt(xy - pow(tr[2],2));
@@ -1010,7 +1005,7 @@ glm::vec3 translate_planet(glm::vec3 tr, float speed, glm::vec3 base, glm::quat 
 		//std::cout << "tr[2](z) = " << tr[2] << std::endl;
 		//std::cout << "x = " << x << std::endl;
 		//std::cout << "x - tr[0] = " << x - tr[0] << std::endl;
-				
+
 		tr = glm::vec3(x, tr[1], tr[2]);
 		tr += glm::vec3(rot_pl[0], rot_pl[1], rot_pl[2] * -speed) ;
 
@@ -1020,11 +1015,11 @@ glm::vec3 translate_planet(glm::vec3 tr, float speed, glm::vec3 base, glm::quat 
 			tr[0] -= tol;
 		}
 	}
-	if (tr[2] <= -base[2] && 
+	if (tr[2] <= -base[2] &&
 		! (tr[2] > -base[2]) &&
-		tr[0] >= -base[0] && 
+		tr[0] >= -base[0] &&
 		tr[0] <= base[0]) {
-		rot_pl = glm::angleAxis(delta * 30 * glm::pi<float>() / 180.0f, 
+		rot_pl = glm::angleAxis(delta * 30 * glm::pi<float>() / 180.0f,
 			glm::normalize(glm::vec3(0.5, 0.0, 0.0)));
 
 		float z = sqrt(xy - pow(tr[0], 2));
@@ -1033,7 +1028,7 @@ glm::vec3 translate_planet(glm::vec3 tr, float speed, glm::vec3 base, glm::quat 
 		//std::cout << "z = " << z << std::endl;
 		//std::cout << "tr[2](z) = " << tr[2] << std::endl;
 		//std::cout << "z + tr[2] = " << z + tr[2] << std::endl;
-				
+
 		tr = glm::vec3(tr[0],tr[1],-z);
 		tr += glm::vec3(rot_pl[0] * -speed, rot_pl[1], rot_pl[2]);
 
@@ -1043,11 +1038,11 @@ glm::vec3 translate_planet(glm::vec3 tr, float speed, glm::vec3 base, glm::quat 
 			tr[2] += tol;
 		}
 	}
-	if (tr[0] <= -base[0] && 
+	if (tr[0] <= -base[0] &&
 		!(tr[0] > -base[0]) &&
-		tr[2] >= -base[2] && 
+		tr[2] >= -base[2] &&
 		tr[2] <= base[2]) {
-		rot_pl = glm::angleAxis(delta * 30 * glm::pi<float>() / 180.0f, 
+		rot_pl = glm::angleAxis(delta * 30 * glm::pi<float>() / 180.0f,
 			glm::normalize(glm::vec3(0.0, 0.0, 0.5)));
 
 		float x = sqrt(xy - pow(tr[2], 2));
@@ -1056,18 +1051,18 @@ glm::vec3 translate_planet(glm::vec3 tr, float speed, glm::vec3 base, glm::quat 
 		//std::cout << "x = " << x << std::endl;
 		tr = glm::vec3(-x, tr[1], tr[2]);
 		tr += (glm::vec3(rot_pl[0], rot_pl[1], rot_pl[2]) * glm::vec3(1.0, 1.0, speed));
-				
+
 		//if at the end of section add a little more to push into next section
 		if (round(tr[0]) == -base[0] &&
 			round(tr[2]) == base[2]) {
 			tr[0] += tol;
 		}
 	}
-	if (tr[2] >= base[0] && 
+	if (tr[2] >= base[0] &&
 		!(tr[2] < base[2]) &&
-		tr[0] >= -base[0] && 
+		tr[0] >= -base[0] &&
 		tr[0] <= base[0]) {
-		rot_pl = glm::angleAxis(delta * 30 * glm::pi<float>() / 180.0f, 
+		rot_pl = glm::angleAxis(delta * 30 * glm::pi<float>() / 180.0f,
 			glm::normalize(glm::vec3(0.5, 0.0, 0.0)));
 
 		float z = sqrt(xy - pow(tr[0], 2));
@@ -1076,7 +1071,7 @@ glm::vec3 translate_planet(glm::vec3 tr, float speed, glm::vec3 base, glm::quat 
 		//std::cout << "z = " << z << std::endl;
 		tr = glm::vec3(tr[0], tr[1], z);
 		tr += glm::vec3(rot_pl[0] * speed, rot_pl[1], rot_pl[2]);
-		
+
 		//std::cout << "planet " << 1 << " translation: (" << tr[0] << ", " << tr[1] << ", " << tr[2] << ")" << std::endl;
 
 		//if at the end of section add a little more to push into next section
@@ -1101,7 +1096,7 @@ int main(void) {
 		}
 
 		//Mac uses an older version of OpenGL. So we need tos et it to use
-		//the neweer core profile. If you're on windows, remove this. 
+		//the neweer core profile. If you're on windows, remove this.
 		#ifdef __APPLE__
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -1146,31 +1141,31 @@ int main(void) {
 		//load textures
 		GLuint earth_tex = LoadTexture("earth.png");
 		std::cout << "Earth loaded" << std::endl;
-		
+
 		GLuint moon_tex = LoadTexture("moon.jpg");
 		std::cout << "moon loaded" << std::endl;
-		
+
 		GLuint sun_tex = LoadTexture("sun.jpg");
 		std::cout << "sun loaded" << std::endl;
-		
+
 		GLuint bodies_tex = LoadTexture("bodies.png");
 		std::cout << "bodies loaded" << std::endl;
-		
+
 		GLuint bog_tex = LoadTexture("bog.png");
 		std::cout << "bog loaded" << std::endl;
-		
+
 		GLuint crater_tex = LoadTexture("crater.png");
 		std::cout << "crater loaded" << std::endl;
-		
+
 		GLuint desert2_tex = LoadTexture("desert_2.png");
 		std::cout << "desert2 loaded" << std::endl;
-		
+
 		GLuint desert1_tex = LoadTexture("desert_ish.png");
 		std::cout << "desert1 loaded" << std::endl;
-		
+
 		GLuint orange_tex = LoadTexture("orange_cloud.jpg");
 		std::cout << "orange loaded" << std::endl;
-		
+
 		GLuint red_tex = LoadTexture("red_dirt.jpg");
 		std::cout << "red loaded" << std::endl;
 
@@ -1179,7 +1174,7 @@ int main(void) {
 
 		GLuint ice_tex = LoadTexture("ice.png");
 		std::cout << "ice loaded" << std::endl;
-		
+
 		std::vector<GLuint> arr = {earth_tex,bodies_tex,
 									bog_tex,crater_tex,
 									desert2_tex,desert1_tex,
@@ -1247,7 +1242,7 @@ int main(void) {
 				std::shuffle(t_arr.begin(), t_arr.end(), rng);
 				//add moons to array of moons
 				for (int k = 0; k <= num_moon; k++) {
-					
+
 					if (upsized) {
 						translat_m = t_arr[k] * glm::vec3(i+2, 1.0, i+2);
 					}
@@ -1274,18 +1269,10 @@ int main(void) {
 			sphere_arr.push_back(p);
 		}
 		// -----------------------------------------------------------------------
-		/*
-		for (int i = 0; i < sphere_arr.size(); ++i) {
-			std::cout << "rock: " << sphere_arr[i].get_rock() << std::endl;
-			std::cout << "loation: (" << sphere_arr[i].get_tran()[0] << ", " << sphere_arr[i].get_tran()[1] << ", " << sphere_arr[i].get_tran()[2] << ")" << std::endl;
-			std::cout << "scale: (" << sphere_arr[i].get_scale()[0] << ", " << sphere_arr[i].get_scale()[1] << ", " << sphere_arr[i].get_scale()[2] << ")" << std::endl;
-			std::cout << "texture: " << sphere_arr[i].get_text() << std::endl;
-			std::cout << "number of moons: " << sphere_arr[i].num_moons() << std::endl;
-		}*/
-		
+
 		//std::cout << "all planets and moons loaded" << std::endl;
 
-		//Set the proper callbacks. 
+		//Set the proper callbacks.
 		glfwSetWindowUserPointer(window, (void *)&projection_matrix);
 		glfwSetKeyCallback(window, KeyCallback);
 		glfwSetMouseButtonCallback(window, MouseCallback);
@@ -1295,7 +1282,7 @@ int main(void) {
 		Geometry* back_sphere = CreateSphere();
 
 		//Define the three transformation attributes
-		
+
 		glm::quat ori = glm::angleAxis(0.0f, glm::vec3(0.0, 1.0, 0.0));
 		glm::vec3 scale_sh1 = glm::vec3(10.0, 10.0, 10.0);
 		glm::vec3 trans_sh1 = glm::vec3(0, 0, 0);
@@ -1332,29 +1319,13 @@ int main(void) {
 			keep_cam();
 
 			//Delta time makes it so the speed of rotation is constant and not dependent
-			//on the framerate 
+			//on the framerate
 			float current_time = glfwGetTime();
 			delta = current_time - last_time;
 			last_time = current_time;
 			//Clear the screen
 			glClearColor(background[0],background[1],background[2], 0.0);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-			
-			//Render(sphere_arr.at(0).get_rock(), textureShader, sphere_arr.at(0).get_tran(),
-			//	sphere_arr.at(0).get_scale(),ori, sphere_arr.at(0).get_text());
-
-			//glm::quat rot_pl = glm::angleAxis(delta * 30 * glm::pi<float>() / 180.0f, glm::normalize(glm::vec3(0.0, 0.0, 0.5)));
-			//glm::vec3 & tr = trans_spheres.at(1);
-			// maybe put if statements here
-			//tr += (glm::vec3(rot_pl[0], rot_pl[1], rot_pl[2]) * glm::vec3(1.0, 1.0, -speed));
-			
-			//tr = translate_planet(tr, speed, sphere_arr.at(1).get_tran(), rot_pl, delta);
-			
-			//std::cout<< "planet "<< 1 <<" translation: (" << tr[0] << ", " << tr[1] << ", " << tr[2]  << ")"<< std::endl;
-			
-			//Render(sphere_arr.at(1).get_rock(), textureShader, tr,
-			//	sphere_arr.at(1).get_scale(), ori, sphere_arr.at(1).get_text());
 
 			//rotate every planet
 			glm::quat rot = glm::angleAxis(delta * 30 * glm::pi<float>() / 180.0f, glm::normalize(glm::vec3(0.0, 0.5, 0.0)));
@@ -1409,182 +1380,3 @@ int main(void) {
 
 	return 0;
 }
-
-
-/*
-* glm::vec3 pos_l = translat_sh1 + glm::vec3(-0.5, 0.0, 0.5);
-glm::vec3 pos_s = translat_sh1 + glm::vec3(0.5, 0.0, 0.5);
-glm::vec3 pos_r = translat_sh1 + glm::vec3(0.5, 0.0, -0.5);
-glm::vec3 pos_n = translat_sh1 + glm::vec3(-0.5, 0.0, -0.5);
-* 
-//rotate around other sphere
-float speed = 0.005;
-if (translat_sh2[0] <= pos_s[0] && translat_sh2[0] >= pos_l[0] && translat_sh2[2] == pos_s[2]) {
-	translat_sh2 += glm::vec3(speed,0.0,0.0);
-	std::cout << "moving to south" << std::endl;
-	std::cout << "(" << translat_sh2[0] << ", " << translat_sh2[1] << ", " << translat_sh2[2] << ")" << std::endl;
-}
-if (translat_sh2[2] >= pos_r[2] && translat_sh2[2] <= pos_s[2] && translat_sh2[0] == pos_r[0]) {
-	translat_sh2 -= glm::vec3(0.0, 0.0, speed);
-	std::cout << "moving to right" << std::endl;
-}
-if (translat_sh2[0] >= pos_n[0] && translat_sh2[0] <= pos_r[0] && translat_sh2[2] == pos_n[2]) {
-	translat_sh2 -= glm::vec3(speed, 0.0, 0.0);
-	std::cout << "moving to north" << std::endl;
-}
-if (translat_sh2[2] <= pos_l[2] && translat_sh2[2] >= pos_n[2] && translat_sh2[0] == pos_l[0]) {
-	translat_sh2 += glm::vec3(0.0, 0.0, speed);
-	std::cout << "moving to left" << std::endl;
-}
-//if the translation values are greater than the stored values
-if (translat_sh2[0] > pos_s[0]) {
-	//set each value back to one decimal place
-	for (int i = 0; i < 3; i++) {
-		float value = (int)(translat_sh2[i] * 10 + .5);
-		translat_sh2[i] = (float)value / 10;
-	}
-	std::cout << "(" << translat_sh2[0] << ", " << translat_sh2[1] << ", " << translat_sh2[2] << ")" << std::endl;
-}
-
-//rotate on y axis
-//glm::quat rot = glm::angleAxis(delta * 30 * glm::pi<float>() / 180.0f, glm::normalize(glm::vec3(0.0, 0.5, 0.0)));
-//or_sh1 *= rotation;
-
-//render vector of planets
-//render test
-//Render(test_sphere, textureShader, trans_sh1, scale_sh1,
-//	or_sh1 *= rotation, sun_tex);
-
-//Render(test_sphere, textureShader, trans_sh3, scale_sh1 / glm::vec3(500),
-//	or_sh1 *= rotation, moon_tex);
-
-//glm::quat ori = sphere_arr[0].get_ori();
-//ori *= rot;
-//sphere_arr[1].get_ori() *= rot;
-
-//Render(sphere_arr[0].get_rock(), textureShader, sphere_arr[0].get_tran(),
-//	sphere_arr[0].get_scale(), ori, sphere_arr[0].get_text());
-
-//Render(sphere_arr[1].get_rock(), textureShader, sphere_arr[1].get_tran(),
-//	sphere_arr[1].get_scale(), sphere_arr[1].get_ori(), sphere_arr[1].get_text());
-
-//also rotates
-
-//Render(sphere1, textureShader, translat_sh1, scale_sh1, or_sh1, earth);
-
-//glm::quat rot_sh2 = glm::angleAxis(delta * 30 * glm::pi<float>() / 180.0f, glm::normalize(glm::vec3(0.0, 0.5, 0.0)));
-//or_sh2 *= rot_sh2;
-//std::cout << "(" << rot_sh2[0] << ", " << rot_sh2[1] << ", "  << rot_sh2[2] << ", " << rot_sh2[3] << ")" << std::endl;
-//glm::quat rot_v_sh2 = glm::angleAxis(delta * 30 * glm::pi<float>() / 180.0f, glm::normalize(glm::vec3(0.5, 0.0, 0.5) - translat_sh2));
-//glm::vec3 rot_vec3 = glm::vec3(rot_v_sh2[0],rot_v_sh2[1],rot_v_sh2[2]);
-
-//Render(sphere2, textureShader, translat_sh2 += rot_vec3, scale_sh2, or_sh2, moon);
-//Render(sphere2, textureShader, translat_sh2, scale_sh2, or_sh2, moon);
-
-//generate spehere as background
-//Render(back_sphere, textureShader, glm::vec3(0,0,0), glm::vec3(1000,1000,1000),
-//	glm::angleAxis(0.0f, glm::vec3(0.0, 1.0, 0.0)), back_tex);
-
-------------------------------------- IMPORTANT ---------------------------------------
-
-//circle equation x^2 + y^2 = 200 for x and y = 10
-	float xy = pow(sphere_arr.at(1).get_tran()[0], 2) + pow(sphere_arr.at(1).get_tran()[2], 2);
-
-	//adjust coord for rounding
-	if (round(tr[0]) == sphere_arr.at(1).get_tran()[0]) {
-		tr[0] = sphere_arr.at(1).get_tran()[0];
-	}else if (round(tr[0]) == -sphere_arr.at(1).get_tran()[0]) {
-		tr[0] = -sphere_arr.at(1).get_tran()[0];
-	}else if (round(tr[2]) == sphere_arr.at(1).get_tran()[2]) {
-		tr[2] = sphere_arr.at(1).get_tran()[2];
-	}if (round(tr[2]) == -sphere_arr.at(1).get_tran()[2]) {
-		tr[2] = -sphere_arr.at(1).get_tran()[2];
-	}
-
-	if (tr[0] >= sphere_arr.at(1).get_tran()[0] &&
-		! (tr[0] < sphere_arr.at(1).get_tran()[0]) &&
-		tr[2] >= -sphere_arr.at(1).get_tran()[2] &&
-		tr[2] <= sphere_arr.at(1).get_tran()[2]) {
-
-		rot_pl = glm::angleAxis(delta * 30 * glm::pi<float>() / 180.0f,
-			glm::normalize(glm::vec3(0.0, 0.0, 0.5)));
-
-		float x = sqrt(xy - pow(tr[2],2));
-		std::cout << "-----------PHASE 1-----------" << std::endl;
-		std::cout << "tr[2](z) = " << tr[2] << std::endl;
-		std::cout << "x = " << x << std::endl;
-		std::cout << "x - tr[0] = " << x - tr[0] << std::endl;
-
-		tr = glm::vec3(x, tr[1], tr[2]);
-		tr += glm::vec3(rot_pl[0], rot_pl[1], rot_pl[2] * -speed) ;
-
-		//if at the end of section add a little more to push into next section
-		if (round(tr[0]) == sphere_arr.at(1).get_tran()[0] &&
-			round(tr[2]) == -sphere_arr.at(1).get_tran()[2]) {
-			tr[0] -= tol;
-		}
-	}
-	if (tr[2] <= -sphere_arr.at(1).get_tran()[2] &&
-		! (tr[2] > -sphere_arr.at(1).get_tran()[2]) &&
-		tr[0] >= -sphere_arr.at(1).get_tran()[0] &&
-		tr[0] <= sphere_arr.at(1).get_tran()[0]) {
-		rot_pl = glm::angleAxis(delta * 30 * glm::pi<float>() / 180.0f,
-			glm::normalize(glm::vec3(0.5, 0.0, 0.0)));
-
-		float z = sqrt(xy - pow(tr[0], 2));
-		std::cout << "-----------PHASE 2-----------" << std::endl;
-		std::cout << "tr[0](x) = " << tr[0] << std::endl;
-		std::cout << "z = " << z << std::endl;
-		std::cout << "tr[2](z) = " << tr[2] << std::endl;
-		std::cout << "z + tr[2] = " << z + tr[2] << std::endl;
-
-		tr = glm::vec3(tr[0],tr[1],-z);
-		tr += glm::vec3(rot_pl[0] * -speed, rot_pl[1], rot_pl[2]);
-
-		//if at the end of section add a little more to push into next section
-		if (round(tr[0]) == -sphere_arr.at(1).get_tran()[0] &&
-			round(tr[2]) == -sphere_arr.at(1).get_tran()[2]) {
-			tr[2] += tol;
-		}
-	}
-	if (tr[0] <= -sphere_arr.at(1).get_tran()[0] &&
-		!(tr[0] > -sphere_arr.at(1).get_tran()[0]) &&
-		tr[2] >= -sphere_arr.at(1).get_tran()[2] &&
-		tr[2] <= sphere_arr.at(1).get_tran()[2]) {
-		rot_pl = glm::angleAxis(delta * 30 * glm::pi<float>() / 180.0f,
-			glm::normalize(glm::vec3(0.0, 0.0, 0.5)));
-
-		float x = sqrt(xy - pow(tr[2], 2));
-		std::cout << "-----------PHASE 3-----------" << std::endl;
-		std::cout << "tr[0](z) = " << tr[2] << std::endl;
-		std::cout << "x = " << x << std::endl;
-		tr = glm::vec3(-x, tr[1], tr[2]);
-		tr += (glm::vec3(rot_pl[0], rot_pl[1], rot_pl[2]) * glm::vec3(1.0, 1.0, speed));
-
-		//if at the end of section add a little more to push into next section
-		if (round(tr[0]) == -sphere_arr.at(1).get_tran()[0] &&
-			round(tr[2]) == sphere_arr.at(1).get_tran()[2]) {
-			tr[0] += tol;
-		}
-	}
-	if (tr[2] >= sphere_arr.at(1).get_tran()[0] &&
-		!(tr[2] < sphere_arr.at(1).get_tran()[2]) &&
-		tr[0] >= -sphere_arr.at(1).get_tran()[0] &&
-		tr[0] <= sphere_arr.at(1).get_tran()[0]) {
-		rot_pl = glm::angleAxis(delta * 30 * glm::pi<float>() / 180.0f,
-			glm::normalize(glm::vec3(0.5, 0.0, 0.0)));
-
-		float z = sqrt(xy - pow(tr[0], 2));
-		std::cout << "-----------PHASE 4-----------" << std::endl;
-		std::cout << "tr[0](x) = " << tr[0] << std::endl;
-		std::cout << "z = " << z << std::endl;
-		tr = glm::vec3(tr[0], tr[1], z);
-		tr += glm::vec3(rot_pl[0] * speed, rot_pl[1], rot_pl[2]);
-
-		//if at the end of section add a little more to push into next section
-		if (round(tr[0]) == sphere_arr.at(1).get_tran()[0] &&
-			round(tr[2]) == sphere_arr.at(1).get_tran()[2]) {
-			tr[0] -= tol;
-		}
-	}
-*/
