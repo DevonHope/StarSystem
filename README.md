@@ -9,6 +9,8 @@ Devon Hope - 101038344
 
 A procedurally generated planetary system using OpenGL, developed on Linux and Windows platforms. The project will consist of a primary top-down view of the planetary (solar) system with the star(s) at the centre. Orbital paths will be shown around the star(s) with the orbiting object (planets, asteroids, etc) shown at a visible scale
 
+Link to old project repo with timestamps and commits [here](https://github.com/jagger27/starsystem)
+
 ## Progress
 
 | Title    	| Date   | Done by 		 | Status  |
