@@ -11,6 +11,19 @@ A procedurally generated planetary system using OpenGL, developed on Linux and W
 
 Link to old project repo with timestamps and commits [here](https://github.com/jagger27/starsystem)
 
+## Commands
+
+Runtime Commands:
+o	Up and down arrow keys: Pitch
+o	Left and right arrow keys: Yaw
+o	N and M keys: Roll
+o	W and S keys: Forward and Backward, respectively
+o	A and D keys: Left and Right, respectively
+o	E key: Reset camera position to center star.
+o	T key: Reset camera position to top down view.
+o	Keys 1 – 9: View a specific planet, numbers associated with planets in order from closest to farthest away, 1 being closest and 9 being farthest. NOTE: All 9 planets will not always be available as the number of planets changes with each run. All of these buttons still work but the ones without planets will not show the planet.
+
+
 ## Progress
 
 | Title    	| Date   | Done by 		 | Status  |
